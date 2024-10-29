@@ -5,6 +5,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +65,7 @@ public class BaseDeDatos {
         }
     }
 
-    public void volcarDatosXML(String ruta){
+    public void exportarXML(String ruta){
         try{
             JAXBContext context = JAXBContext.newInstance(BaseDeDatos.class);
             Marshaller marshaller = context.createMarshaller();
@@ -73,5 +74,39 @@ public class BaseDeDatos {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+    }
+
+    public void insertarJuego(VideoJuego nuevoJuego) throws JuegoException {
+        if (juegos.stream().anyMatch(j -> j.getIdentificador().equals(nuevoJuego.getIdentificador()))){
+            throw new JuegoException("Ya existe el juego con ese identificador");
+        }
+        juegos.add(nuevoJuego);
+        numReg++;
+    }
+
+    public void ordenarPorId(){
+        juegos.sort(Comparator.comparing(VideoJuego::getIdentificador));
+
+    }
+
+    public void exportarXMLOrdenado(String rutaXML){
+        ordenarPorId();
+        exportarXML(rutaXML);
+    }
+
+    public boolean borrarPorId(String id){
+        boolean eliminado = juegos.removeIf(j -> j.getIdentificador().equals(id));
+
+        if (eliminado){
+            numReg--;
+            System.out.println("Videojuego con ID " + id + " eliminado");
+        }else {
+            System.out.println("Videojuego con ID " + id + " no encontrado");
+        }
+        return eliminado;
+    }
+
+    public boolean modificarPorId(String id, VideoJuego nuevosDatos){
+
     }
 }
