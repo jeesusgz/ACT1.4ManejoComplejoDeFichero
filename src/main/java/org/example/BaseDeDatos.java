@@ -79,8 +79,10 @@ public class BaseDeDatos {
      * @param ruta expecifica la ubicación y el nombre del fichero que vamos a crear
      */
     public void exportarXML(String ruta){
+        //crea una lista serializada envuelta en la lista de juegos de la base de datos para transformarla en XML
         ListaVideoJuegos listaJuegos = new ListaVideoJuegos(juegos);
         try{
+            //insertamos las dos clases que vamos a transformar
             JAXBContext context = JAXBContext.newInstance(ListaVideoJuegos.class, VideoJuego.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
