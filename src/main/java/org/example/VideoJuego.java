@@ -1,5 +1,7 @@
 package org.example;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -12,6 +14,7 @@ public class VideoJuego {
     private String plataforma;
     private double precio;
 
+    @XmlAttribute
     public String getIdentificador() {
         return identificador;
     }
@@ -20,6 +23,7 @@ public class VideoJuego {
         this.identificador = identificador;
     }
 
+    @XmlElement
     public String getTitulo() {
         return titulo;
     }
@@ -28,6 +32,7 @@ public class VideoJuego {
         this.titulo = titulo;
     }
 
+    @XmlElement
     public String getGenero() {
         return genero;
     }
@@ -36,6 +41,7 @@ public class VideoJuego {
         this.genero = genero;
     }
 
+    @XmlElement
     public String getDesarrolladora() {
         return desarrolladora;
     }
@@ -44,6 +50,7 @@ public class VideoJuego {
         this.desarrolladora = desarrolladora;
     }
 
+    @XmlElement
     public int getPegi() {
         return pegi;
     }
@@ -52,6 +59,7 @@ public class VideoJuego {
         this.pegi = pegi;
     }
 
+    @XmlElement
     public double getPrecio() {
         return precio;
     }
@@ -60,11 +68,25 @@ public class VideoJuego {
         this.precio = precio;
     }
 
+    @XmlElement
     public String getPlataforma() {
         return plataforma;
     }
 
     public void setPlataforma(String plataforma) {
         this.plataforma = plataforma;
+    }
+
+    @Override
+    public String toString() {
+        return "VideoJuego{" +
+                "identificador='" + identificador + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", genero='" + genero + '\'' +
+                ", desarrolladora='" + desarrolladora + '\'' +
+                ", pegi=" + pegi +
+                ", plataforma='" + plataforma + '\'' +
+                ", precio=" + precio +
+                '}';
     }
 }
