@@ -10,7 +10,7 @@ public class VideoJuego {
     private String titulo;
     private String genero;
     private String desarrolladora;
-    private int pegi;
+    private String pegi;
     private String plataforma;
     private double precio;
 
@@ -51,11 +51,11 @@ public class VideoJuego {
     }
 
     @XmlElement
-    public int getPegi() {
+    public String getPegi() {
         return pegi;
     }
 
-    public void setPegi(int pegi) {
+    public void setPegi(String pegi) {
         this.pegi = pegi;
     }
 

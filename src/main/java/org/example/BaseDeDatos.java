@@ -21,6 +21,7 @@ public class BaseDeDatos {
     private int longReg;
     private long numReg;
     private long numRegMarcadosBorrado;
+
     private List<VideoJuego> juegos;
 
     public BaseDeDatos(String nombreFich, Map<String, Integer> campos, String campoClave) {
@@ -36,6 +37,10 @@ public class BaseDeDatos {
         }
 
         cargarRegistro();
+    }
+
+    public List<VideoJuego> getJuegos() {
+        return juegos;
     }
 
     /**
@@ -54,7 +59,7 @@ public class BaseDeDatos {
                 juego.setTitulo(datos[1]);
                 juego.setGenero(datos[2]);
                 juego.setDesarrolladora(datos[3]);
-                juego.setPegi(Integer.parseInt(datos[4]));
+                juego.setPegi(datos[4]);
                 juego.setPlataforma(datos[5]);
                 juego.setPrecio(Double.parseDouble(datos[6].replace("€","")));
 
@@ -74,11 +79,12 @@ public class BaseDeDatos {
      * @param ruta expecifica la ubicación y el nombre del fichero que vamos a crear
      */
     public void exportarXML(String ruta){
+        ListaVideoJuegos listaJuegos = new ListaVideoJuegos(juegos);
         try{
-            JAXBContext context = JAXBContext.newInstance(VideoJuego.class);
+            JAXBContext context = JAXBContext.newInstance(ListaVideoJuegos.class, VideoJuego.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(this, new File(ruta));
+            marshaller.marshal(listaJuegos, new File(ruta));
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -195,13 +201,13 @@ public class BaseDeDatos {
      */
     public void convertirBBDDaJSON(String rutaXML, String rutaJSON){
         try{
-            JAXBContext context = JAXBContext.newInstance(BaseDeDatos.class);
+            JAXBContext context = JAXBContext.newInstance(ListaVideoJuegos.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            BaseDeDatos bd = (BaseDeDatos) unmarshaller.unmarshal(new File(rutaXML));
+            ListaVideoJuegos listaVideoJuegos = (ListaVideoJuegos) unmarshaller.unmarshal(new File(rutaXML));
 
             //creo un jsonArray para guardar toda la lista de juegos
             JSONArray jsonArray = new JSONArray();
-            for (VideoJuego juego : bd.juegos){
+            for (VideoJuego juego : juegos){
                 jsonArray.put(convertirJuegoAJSON(juego));
             }
 
